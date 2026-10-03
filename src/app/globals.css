@@ -1,0 +1,143 @@
+@import "tailwindcss";
+
+:root {
+  color-scheme: dark;
+  --background: #15171c;
+  --foreground: #eef0f2;
+  --muted: #9ba0aa;
+  --card: #1d2028;
+  --border: #2b2e37;
+  --accent: #ffffff;
+  --accent-foreground: #15171c;
+  --accent-2: oklch(80% 0.13 86);
+  --danger: #e5675f;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-card: var(--card);
+  --color-border: var(--border);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent-2: var(--accent-2);
+  --color-danger: var(--danger);
+  --font-sans: var(--font-archivo);
+  --font-mono: var(--font-plex-mono);
+}
+
+body {
+  background-color: var(--background);
+  background-image: radial-gradient(
+    900px circle at 10% -10%,
+    color-mix(in oklab, var(--accent) 6%, transparent),
+    transparent 60%
+  );
+  background-repeat: no-repeat;
+  color: var(--foreground);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.custom-cursor-active,
+.custom-cursor-active * {
+  cursor: none !important;
+}
+
+.custom-cursor-active input,
+.custom-cursor-active textarea {
+  cursor: text !important;
+}
+
+@media (pointer: coarse) {
+  .custom-cursor-active,
+  .custom-cursor-active * {
+    cursor: auto !important;
+  }
+}
+
+@keyframes visual-pulse {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.85;
+    transform: scale(1.06);
+  }
+}
+
+@keyframes visual-flow {
+  0%,
+  100% {
+    stroke-opacity: 0.5;
+  }
+  50% {
+    stroke-opacity: 0.3;
+  }
+}
+
+/* Distance matches ReceiptVisual's receipt height (SVG user units). */
+@keyframes visual-scan {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(24px);
+  }
+}
+
+/* Hero mountains: ridges reveal left-to-right, then their fill fades in. Under reduced
+   motion the animation is dropped and elements simply render in their final state. */
+@keyframes mountain-draw {
+  from {
+    clip-path: inset(0 100% 0 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+@keyframes mountain-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.mountain-draw {
+  animation: mountain-draw 1.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.mountain-fade {
+  animation: mountain-fade 0.9s ease-out both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mountain-draw,
+  .mountain-fade {
+    animation: none;
+  }
+}
+
+@keyframes visual-roll {
+  0%,
+  100% {
+    transform: rotate(-7deg);
+  }
+  50% {
+    transform: rotate(7deg);
+  }
+}

@@ -1,0 +1,14 @@
+node_modules
+.next
+.git
+.obsidian
+.claude
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+.env*
+*.tsbuildinfo
+Dockerfile
+.dockerignore
+README.md
