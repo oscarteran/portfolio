@@ -1,22 +1,10 @@
-import { site } from "@/data/site";
-import SocialLinks from "./SocialLinks";
-
-export default function Footer() {
+export default function Footer({ name, tagline }: { name: string; tagline: string }) {
   return (
-    <footer className="mx-auto max-w-[1600px] px-6 py-10 sm:px-10 lg:px-16">
-      <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
-        <div>
-          <p className="font-black uppercase tracking-tight text-lg">{site.name}</p>
-          <p className="mt-1 text-sm text-muted">{site.role}</p>
-        </div>
-        <SocialLinks />
-      </div>
-
-      <div className="mt-8 border-t border-border pt-6 text-xs text-muted">
-        <p>
-          © {new Date().getFullYear()} {site.name}. Todos los derechos reservados.
-        </p>
-      </div>
+    <footer className="mt-24 flex flex-wrap justify-between gap-3 border-t border-divider pb-10 pt-6 text-[13px] text-neutral-700">
+      <span>
+        © {new Date().getFullYear()} {name}
+      </span>
+      <span>{tagline}</span>
     </footer>
   );
 }

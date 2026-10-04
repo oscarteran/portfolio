@@ -1,15 +1,22 @@
-import type { ProjectVisualKind } from "./projects";
+import { tx, type Locale, type Text } from "@/lib/i18n";
 
-export type PersonalProject = {
-  title: string;
-  description: string;
+type PersonalProjectSource = {
+  title: Text;
+  description: Text;
   tags: string[];
-  visual: ProjectVisualKind;
-  highlights?: string[];
   demoUrl?: string;
   repoUrl?: string;
 };
 
-/** The "Proyectos personales" section stays hidden while this list is empty. When adding
- * entries, also add `{ label: "Proyectos personales", href: "#proyectos-personales" }` to `nav` in site.ts. */
-export const personalProjects: PersonalProject[] = [];
+/** The "Proyectos personales" section stays hidden while this list is empty. */
+const personalProjects: PersonalProjectSource[] = [];
+
+export function getPersonalProjects(locale: Locale) {
+  return personalProjects.map((p) => ({
+    title: tx(p.title, locale),
+    description: tx(p.description, locale),
+    tags: p.tags,
+    demoUrl: p.demoUrl,
+    repoUrl: p.repoUrl,
+  }));
+}

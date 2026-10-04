@@ -1,53 +1,33 @@
-import Link from "next/link";
-import { nav, site } from "@/data/site";
-import NavLinks from "./NavLinks";
-import SocialLinks from "./SocialLinks";
+import type { Site } from "@/data/site";
+import type { Dictionary } from "@/data/ui";
+import type { Locale } from "@/lib/i18n";
+import Blueprint from "./Blueprint";
+import LanguageSwitch from "./LanguageSwitch";
 
-function initials(name: string) {
-  return name
-    .split(" ")
-    .filter(Boolean)
-    .slice(0, 2)
-    .map((word) => word[0])
-    .join("")
-    .toUpperCase();
-}
-
-export default function Navbar() {
+export default function Navbar({ site, ui, locale }: { site: Site; ui: Dictionary; locale: Locale }) {
   return (
-    <header className="sticky top-0 z-40 border-b border-border bg-background/90 backdrop-blur">
-      <div className="mx-auto flex h-16 max-w-[1600px] items-center justify-between gap-4 px-6 sm:px-10 lg:px-16">
-        <Link
+    <header className="sticky top-0 z-10 border-b border-divider bg-bg">
+      <div className="flex flex-wrap items-center gap-x-[14px] gap-y-3 px-[clamp(20px,5vw,72px)] py-4">
+        <a
           href="#inicio"
-          className="flex h-10 w-10 shrink-0 items-center justify-center rounded-sm border border-border text-sm font-bold text-accent-2"
+          className="mr-auto font-heading text-[18px] font-semibold uppercase tracking-[0.04em] text-text no-underline hover:text-text"
         >
-          {initials(site.name)}
-        </Link>
-
-        <NavLinks
-          items={nav}
-          indicator
-          className="hidden items-center gap-7 text-sm lg:flex"
-          linkClassName="py-1.5"
-        />
-
-        <div className="flex items-center gap-4">
-          <SocialLinks className="max-sm:hidden" />
-          <a
-            href={site.cvUrl}
-            download={site.cvFileName}
-            className="shrink-0 rounded-sm bg-accent px-3.5 py-2 text-sm font-medium text-accent-foreground transition-opacity hover:opacity-90"
-          >
-            Descargar CV
-          </a>
-        </div>
+          {site.name}
+        </a>
+        <nav aria-label={ui.mainNav} className="flex items-center gap-[14px] max-[479px]:hidden">
+          {ui.nav.map((item) => (
+            <a key={item.href} href={item.href} className="text-[14px] text-text no-underline hover:text-accent">
+              {item.label}
+            </a>
+          ))}
+        </nav>
+        <LanguageSwitch locale={locale} label={ui.languageLabel} />
+        {/* On phones the label shrinks to "CV" so brand, language and CV share one row. */}
+        <Blueprint as="a" href={site.cvUrl} download={site.cvFileName} aria-label={ui.cv} className="btn btn-primary">
+          <span className="max-[479px]:hidden">{ui.cv}</span>
+          <span className="min-[480px]:hidden">CV</span>
+        </Blueprint>
       </div>
-
-      <NavLinks
-        items={nav}
-        className="mx-auto flex max-w-[1600px] items-center gap-6 overflow-x-auto border-t border-border px-6 py-2 text-sm lg:hidden"
-        linkClassName="whitespace-nowrap"
-      />
     </header>
   );
 }

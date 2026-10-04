@@ -12,3 +12,8 @@ yarn-error.log*
 Dockerfile
 .dockerignore
 README.md
+Redise*o portafolio personal AI Engineer
+cvs
+tests
+test-results
+playwright-report

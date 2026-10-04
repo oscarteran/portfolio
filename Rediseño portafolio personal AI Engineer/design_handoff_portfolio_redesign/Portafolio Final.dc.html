@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="ds/styles.css">
+
+<style>
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--color-bg);text-wrap:pretty}
+.btn,.tag{white-space:nowrap;flex-shrink:0}
+a{color:var(--color-accent-700)}
+a:hover{color:var(--color-accent-800)}
+</style>
+</helmet>
+
+<nav class="nav" style="position:sticky;top:0;z-index:10;background:var(--color-bg);border-bottom:1px solid var(--color-divider);padding:16px clamp(20px,5vw,72px);flex-wrap:wrap">
+  <span class="nav-brand" style="text-transform:uppercase;letter-spacing:.04em">Oscar Hernández Terán</span>
+  <a href="#proyectos">{{ t.nav0 }}</a><a href="#experiencia">{{ t.nav1 }}</a><a href="#habilidades">{{ t.nav2 }}</a><a href="#contacto">{{ t.nav3 }}</a>
+  <div class="seg"><label class="seg-opt"><input type="radio" name="lang" checked="{{ isEs }}" onChange="{{ setEs }}">ES</label><label class="seg-opt"><input type="radio" name="lang" checked="{{ isEn }}" onChange="{{ setEn }}">EN</label></div>
+  <a class="btn btn-primary blueprint" href="#" style="color:var(--color-bg)"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>{{ t.cv }}</a>
+</nav>
+
+<main style="max-width:1440px;margin:0 auto;padding:0 clamp(20px,5vw,72px)">
+
+<section id="inicio" data-screen-label="Inicio" style="padding:88px 0 0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,460px),1fr));gap:40px 64px;align-items:end">
+  <div style="display:flex;flex-direction:column;gap:20px">
+    <div style="font-size:13px;letter-spacing:.08em;text-transform:uppercase;font-weight:600;color:var(--color-accent-700)">AI Engineer · {{ t.loc }}</div>
+    <h1 style="margin:0;font-size:clamp(48px,6vw,80px);line-height:.98;text-transform:uppercase;letter-spacing:.01em">Oscar<span style="display:block">Hernández Terán</span></h1>
+    <div style="display:flex;gap:12px;flex-wrap:wrap;padding-top:8px">
+      <a class="btn btn-primary blueprint" href="#proyectos" style="color:var(--color-bg);padding:10px 20px;font-size:16px"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>{{ t.ctaProjects }}</a>
+      <a class="btn btn-secondary" href="#contacto" style="padding:10px 20px;font-size:16px">{{ t.ctaContact }}</a>
+    </div>
+  </div>
+  <div style="display:flex;flex-direction:column;gap:16px">
+    <p style="margin:0;font-family:var(--font-heading);font-weight:600;font-size:clamp(26px,2.6vw,34px);line-height:1.2">{{ t.tagline }}</p>
+    <p style="margin:0;font-size:16px;line-height:1.6;color:var(--color-neutral-800)">{{ t.bio }}</p>
+  </div>
+</section>
+
+<figure class="blueprint" style="margin:56px 0 0">
+  <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+  <div style="display:flex;flex-wrap:wrap;border-bottom:1px solid var(--color-divider);font-size:12px;letter-spacing:.08em;text-transform:uppercase;font-weight:600">
+    <span style="flex:1;min-width:220px;padding:10px 20px">{{ t.seisTitle }}</span>
+    <span style="padding:10px 20px;border-left:1px solid var(--color-divider);color:var(--color-neutral-700);white-space:nowrap">{{ t.station }}</span>
+    <span style="padding:10px 20px;border-left:1px solid var(--color-divider);color:var(--color-neutral-700);white-space:nowrap">{{ t.channel }}</span>
+    <span style="padding:10px 20px;border-left:1px solid var(--color-divider);color:var(--color-neutral-700);white-space:nowrap">100 sps</span>
+  </div>
+  <div style="display:grid;grid-template-columns:44px minmax(0,1fr)">
+    <div style="position:relative;border-right:1px solid var(--color-divider);font-size:11px;color:var(--color-neutral-700)">
+      <span style="position:absolute;top:44px;right:6px">+A</span>
+      <span style="position:absolute;top:144px;right:6px">0</span>
+      <span style="position:absolute;top:244px;right:6px">−A</span>
+    </div>
+    <div style="position:relative;height:300px;background-image:repeating-linear-gradient(to right,color-mix(in srgb,var(--color-text) 6%,transparent) 0 1px,transparent 1px 2.5%),repeating-linear-gradient(to bottom,color-mix(in srgb,var(--color-text) 6%,transparent) 0 1px,transparent 1px 50px)">
+      <svg viewBox="0 0 1300 300" preserveAspectRatio="none" style="position:absolute;inset:0;width:100%;height:100%">
+        <line x1="0" y1="150" x2="1300" y2="150" stroke="var(--color-divider)" stroke-width="1"></line>
+        <path d="{{ traceD }}" fill="none" stroke="var(--color-accent-700)" stroke-width="1.1" vector-effect="non-scaling-stroke"></path>
+      </svg>
+      <div style="position:absolute;top:0;bottom:0;left:24.2%;border-left:1px dashed var(--color-accent-700)"></div>
+      <div style="position:absolute;top:0;bottom:0;left:26.4%;border-left:1px dashed var(--color-neutral-500)"></div>
+      <div style="position:absolute;top:0;bottom:0;left:32.5%;border-left:1px dashed var(--color-accent-700)"></div>
+      <div style="position:absolute;top:0;bottom:0;left:34.7%;border-left:1px dashed var(--color-neutral-500)"></div>
+      <div style="position:absolute;top:0;bottom:0;left:66.7%;border-left:1px dashed var(--color-accent-700)"></div>
+      <div style="position:absolute;top:0;bottom:0;left:68.9%;border-left:1px dashed var(--color-neutral-500)"></div>
+      <span style="position:absolute;top:8px;left:calc(24.2% + 4px);font-size:12px;font-weight:700;color:var(--color-accent-700)">P</span>
+      <span style="position:absolute;top:8px;left:calc(26.4% + 4px);font-size:12px;font-weight:700;color:var(--color-neutral-700)">S</span>
+      <span style="position:absolute;top:8px;left:calc(32.5% + 4px);font-size:12px;font-weight:700;color:var(--color-accent-700)">P</span>
+      <span style="position:absolute;top:8px;left:calc(34.7% + 4px);font-size:12px;font-weight:700;color:var(--color-neutral-700)">S</span>
+      <span style="position:absolute;top:8px;left:calc(66.7% + 4px);font-size:12px;font-weight:700;color:var(--color-accent-700)">P</span>
+      <span style="position:absolute;top:8px;left:calc(68.9% + 4px);font-size:12px;font-weight:700;color:var(--color-neutral-700)">S</span>
+      <span class="tag tag-accent" style="position:absolute;bottom:10px;left:calc(24.2% + 4px)">Mw 3.8</span>
+      <span class="tag tag-accent" style="position:absolute;bottom:10px;left:calc(34.7% + 4px)">Mw 5.1</span>
+      <span class="tag tag-accent" style="position:absolute;bottom:10px;left:calc(68.9% + 4px)">Mw 6.7</span>
+    </div>
+  </div>
+  <div style="display:grid;grid-template-columns:44px minmax(0,1fr);border-top:1px solid var(--color-divider)">
+    <span style="border-right:1px solid var(--color-divider)"></span>
+    <div style="position:relative;height:28px;font-size:11px;color:var(--color-neutral-700)">
+      <span style="position:absolute;left:8.3%;top:0;height:6px;border-left:1px solid var(--color-neutral-500)"></span><span style="position:absolute;left:calc(8.3% - 14px);top:9px">2021</span>
+      <span style="position:absolute;left:25%;top:0;height:6px;border-left:1px solid var(--color-neutral-500)"></span><span style="position:absolute;left:calc(25% - 14px);top:9px">2022</span>
+      <span style="position:absolute;left:41.7%;top:0;height:6px;border-left:1px solid var(--color-neutral-500)"></span><span style="position:absolute;left:calc(41.7% - 14px);top:9px">2023</span>
+      <span style="position:absolute;left:58.3%;top:0;height:6px;border-left:1px solid var(--color-neutral-500)"></span><span style="position:absolute;left:calc(58.3% - 14px);top:9px">2024</span>
+      <span style="position:absolute;left:75%;top:0;height:6px;border-left:1px solid var(--color-neutral-500)"></span><span style="position:absolute;left:calc(75% - 14px);top:9px">2025</span>
+      <span style="position:absolute;left:91.7%;top:0;height:6px;border-left:1px solid var(--color-neutral-500)"></span><span style="position:absolute;left:calc(91.7% - 14px);top:9px">2026</span>
+    </div>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));border-top:1px solid var(--color-divider)">
+    <sc-for list="{{ events }}" as="e" hint-placeholder-count="3">
+      <div style="padding:14px 20px;border-right:1px solid var(--color-divider);display:flex;flex-direction:column;gap:2px">
+        <span style="font-size:12px;font-weight:600;letter-spacing:.08em;color:var(--color-accent-700)">{{ e.code }}</span>
+        <span style="font-size:15px;font-weight:500">{{ e.role }}</span>
+        <span style="font-size:13px;color:var(--color-neutral-700)">{{ e.org }}</span>
+      </div>
+    </sc-for>
+  </div>
+</figure>
+<p style="margin:12px 0 0;font-size:13px;line-height:1.5;color:var(--color-neutral-700);max-width:90ch">{{ t.seisCap }}</p>
+
+<section id="logros" data-screen-label="Logros" style="padding:72px 0 0;display:flex;flex-direction:column;gap:12px">
+  <span style="font-size:13px;letter-spacing:.08em;text-transform:uppercase;font-weight:600;color:var(--color-accent-700)">01 · {{ t.secMetrics }}</span>
+  <div style="height:1px;background:var(--color-divider);margin-bottom:12px"></div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,190px),1fr));border-top:1px solid var(--color-divider);border-left:1px solid var(--color-divider)">
+    <sc-for list="{{ metrics }}" as="m" hint-placeholder-count="5">
+      <div style="padding:24px;display:flex;flex-direction:column;gap:8px;border-right:1px solid var(--color-divider);border-bottom:1px solid var(--color-divider)">
+        <span style="font-family:var(--font-heading);font-weight:600;font-size:48px;line-height:1;color:var(--color-accent-700)">{{ m.v }}</span>
+        <span style="font-size:14px;line-height:1.45;color:var(--color-neutral-800)">{{ m.l }}</span>
+      </div>
+    </sc-for>
+  </div>
+</section>
+
+<section id="proyectos" data-screen-label="Proyectos" style="padding:96px 0 0;display:flex;flex-direction:column;gap:12px;scroll-margin-top:80px">
+  <span style="font-size:13px;letter-spacing:.08em;text-transform:uppercase;font-weight:600;color:var(--color-accent-700)">02 · {{ t.secProjects }}</span>
+  <div style="height:1px;background:var(--color-divider);margin-bottom:20px"></div>
+  <article class="blueprint" style="padding:32px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:40px">
+    <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+    <div style="display:flex;flex-direction:column;gap:18px">
+      <div style="display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-size:13px">
+        <span style="letter-spacing:.08em;text-transform:uppercase;font-weight:600;color:var(--color-accent-700)">{{ t.featKicker }}</span>
+        <span style="color:var(--color-neutral-700)">Minsait · 2024–2026</span>
+      </div>
+      <h2 style="margin:0;font-size:36px;text-transform:uppercase;letter-spacing:.01em">{{ t.featTitle }}</h2>
+      <p style="margin:0;font-size:16px;line-height:1.6;color:var(--color-neutral-800)">{{ t.featDesc }}</p>
+      <div style="display:flex;gap:36px;flex-wrap:wrap;border-top:1px solid var(--color-divider);border-bottom:1px solid var(--color-divider);padding:16px 0">
+        <div style="display:flex;flex-direction:column;gap:4px"><span style="font-family:var(--font-heading);font-weight:600;font-size:40px;line-height:1;color:var(--color-accent-700)">4 h → 30 min</span><span style="font-size:13px;color:var(--color-neutral-700)">{{ t.featM1 }}</span></div>
+        <div style="display:flex;flex-direction:column;gap:4px"><span style="font-family:var(--font-heading);font-weight:600;font-size:40px;line-height:1">40</span><span style="font-size:13px;color:var(--color-neutral-700)">{{ t.featM2 }}</span></div>
+        <div style="display:flex;flex-direction:column;gap:4px"><span style="font-family:var(--font-heading);font-weight:600;font-size:40px;line-height:1">5</span><span style="font-size:13px;color:var(--color-neutral-700)">{{ t.featM3 }}</span></div>
+      </div>
+      <ul style="margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:10px;font-size:15px;line-height:1.55;color:var(--color-neutral-800)">
+        <sc-for list="{{ t.featHl }}" as="h" hint-placeholder-count="4"><li style="display:grid;grid-template-columns:16px 1fr"><span style="color:var(--color-accent-700)">—</span><span>{{ h }}</span></li></sc-for>
+      </ul>
+      <div style="display:flex;flex-wrap:wrap;gap:8px"><span class="tag tag-outline">Google ADK</span><span class="tag tag-outline">LangGraph</span><span class="tag tag-outline">LangChain</span><span class="tag tag-outline">Milvus</span><span class="tag tag-outline">MCP</span><span class="tag tag-outline">PostgreSQL</span><span class="tag tag-outline">Kubernetes</span></div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:12px">
+      <span style="font-size:12px;letter-spacing:.08em;text-transform:uppercase;font-weight:600;color:var(--color-neutral-700)">{{ t.archLabel }}</span>
+      <div style="flex:1;border:1px solid var(--color-divider);padding:28px 24px;display:flex;flex-direction:column;justify-content:center;font-size:14px;background-image:radial-gradient(color-mix(in srgb,var(--color-text) 12%,transparent) 1px,transparent 1px);background-size:16px 16px">
+        <div style="align-self:center;border:1px solid var(--color-divider);background:var(--color-bg);padding:8px 16px;white-space:nowrap">{{ t.archUser }}</div>
+        <div style="align-self:center;width:1px;height:20px;background:var(--color-accent)"></div>
+        <div style="align-self:center;border:1px solid var(--color-accent);background:var(--color-bg);padding:10px 20px;display:flex;flex-direction:column;align-items:center;gap:2px;text-align:center"><span style="font-weight:600;white-space:nowrap">{{ t.archRouter }}</span><span style="font-size:12px;color:var(--color-neutral-700)">Google ADK · LangGraph · {{ t.archMem }}</span></div>
+        <div style="align-self:center;width:1px;height:20px;background:var(--color-accent)"></div>
+        <div style="margin:0 16.6%;height:20px;border:1px solid var(--color-accent);border-bottom:0"></div>
+        <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px">
+          <div style="border:1px solid var(--color-divider);background:var(--color-bg);padding:10px 8px;display:flex;flex-direction:column;gap:2px;text-align:center"><span style="font-weight:600">Agentic-RAG</span><span style="font-size:12px;color:var(--color-neutral-700)">Milvus · {{ t.archRag }}</span></div>
+          <div style="border:1px solid var(--color-divider);background:var(--color-bg);padding:10px 8px;display:flex;flex-direction:column;gap:2px;text-align:center"><span style="font-weight:600">Forecasting</span><span style="font-size:12px;color:var(--color-neutral-700)">SARIMAX · Prophet</span></div>
+          <div style="border:1px solid var(--color-divider);background:var(--color-bg);padding:10px 8px;display:flex;flex-direction:column;gap:2px;text-align:center"><span style="font-weight:600">{{ t.archWeb }}</span><span style="font-size:12px;color:var(--color-neutral-700)">{{ t.archMcp }}</span></div>
+        </div>
+        <div style="margin-top:20px;border-top:1px dashed var(--color-neutral-400);padding-top:10px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-size:12px;color:var(--color-neutral-700)"><span>{{ t.archDeploy }}</span><span>{{ t.archObs }}</span></div>
+      </div>
+    </div>
+  </article>
+  <div style="margin-top:28px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:28px">
+    <sc-for list="{{ t.projects }}" as="p" hint-placeholder-count="4">
+      <div class="blueprint" style="padding:22px;display:flex;flex-direction:column;gap:10px">
+        <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+        <span style="font-size:12px;letter-spacing:.08em;text-transform:uppercase;font-weight:600;color:var(--color-neutral-700)">{{ p.sector }}</span>
+        <span style="font-family:var(--font-heading);font-weight:600;font-size:36px;line-height:1;color:var(--color-accent-700)">{{ p.metric }}</span>
+        <h3 style="margin:0;font-size:21px;line-height:1.2">{{ p.title }}</h3>
+        <p style="margin:0;font-size:14px;line-height:1.55;color:var(--color-neutral-800);flex:1">{{ p.desc }}</p>
+        <div style="display:flex;flex-wrap:wrap;gap:6px;padding-top:6px"><sc-for list="{{ p.tags }}" as="tg" hint-placeholder-count="3"><span class="tag tag-neutral">{{ tg }}</span></sc-for></div>
+      </div>
+    </sc-for>
+  </div>
+</section>
+
+<section id="experiencia" data-screen-label="Experiencia" style="padding:96px 0 0;display:flex;flex-direction:column;gap:12px;scroll-margin-top:80px">
+  <span style="font-size:13px;letter-spacing:.08em;text-transform:uppercase;font-weight:600;color:var(--color-accent-700)">03 · {{ t.secExp }}</span>
+  <div style="height:1px;background:var(--color-divider);margin-bottom:12px"></div>
+  <sc-for list="{{ t.exp }}" as="x" hint-placeholder-count="2">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:12px 48px;padding:24px 0 32px;border-bottom:1px solid color-mix(in srgb,var(--color-text) 8%,transparent)">
+      <div style="display:flex;flex-direction:column;gap:6px">
+        <span style="font-size:12px;font-weight:600;letter-spacing:.08em;color:var(--color-accent-700)">{{ x.code }}</span>
+        <h3 style="margin:0;font-size:28px">{{ x.role }}</h3>
+        <span style="font-size:15px;font-weight:500">{{ x.company }}</span>
+        <span style="font-size:13px;color:var(--color-neutral-700)">{{ x.period }}</span>
+      </div>
+      <div style="grid-column:span 2;display:flex;flex-direction:column;gap:14px;min-width:0">
+        <p style="margin:0;font-size:16px;line-height:1.6">{{ x.summary }}</p>
+        <ul style="margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:8px;font-size:15px;line-height:1.55;color:var(--color-neutral-800)">
+          <sc-for list="{{ x.ach }}" as="a" hint-placeholder-count="4"><li style="display:grid;grid-template-columns:16px 1fr"><span style="color:var(--color-accent-700)">—</span><span>{{ a }}</span></li></sc-for>
+        </ul>
+      </div>
+    </div>
+  </sc-for>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:28px;padding-top:28px">
+    <div class="blueprint" style="padding:20px;display:flex;flex-direction:column;gap:4px">
+      <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+      <span style="font-size:12px;letter-spacing:.08em;text-transform:uppercase;font-weight:600;color:var(--color-accent-700)">{{ t.edu }}</span>
+      <span style="font-family:var(--font-heading);font-weight:600;font-size:22px">{{ t.eduVal }}</span>
+      <span style="font-size:14px;color:var(--color-neutral-700)">Universidad Nacional Autónoma de México · 2021</span>
+    </div>
+    <div class="blueprint" style="padding:20px;display:flex;flex-direction:column;gap:4px">
+      <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+      <span style="font-size:12px;letter-spacing:.08em;text-transform:uppercase;font-weight:600;color:var(--color-accent-700)">{{ t.cert }}</span>
+      <span style="font-family:var(--font-heading);font-weight:600;font-size:22px">Google Cloud Associate Cloud Engineer</span>
+      <span style="font-size:14px;color:var(--color-neutral-700)">Google Cloud</span>
+    </div>
+  </div>
+</section>
+
+<section id="habilidades" data-screen-label="Habilidades" style="padding:96px 0 0;display:flex;flex-direction:column;gap:12px;scroll-margin-top:80px">
+  <span style="font-size:13px;letter-spacing:.08em;text-transform:uppercase;font-weight:600;color:var(--color-accent-700)">04 · {{ t.secSkills }}</span>
+  <div style="height:1px;background:var(--color-divider);margin-bottom:12px"></div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:1px;background:var(--color-divider);border:1px solid var(--color-divider)">
+    <sc-for list="{{ t.skills }}" as="s" hint-placeholder-count="6">
+      <div style="background:var(--color-bg);padding:22px;display:flex;flex-direction:column;gap:12px">
+        <h3 style="margin:0;font-size:19px;text-transform:uppercase;letter-spacing:.02em">{{ s.cat }}</h3>
+        <div style="display:flex;flex-wrap:wrap;gap:6px"><sc-for list="{{ s.items }}" as="it" hint-placeholder-count="5"><span class="tag tag-outline">{{ it }}</span></sc-for></div>
+      </div>
+    </sc-for>
+  </div>
+</section>
+
+<section id="contacto" data-screen-label="Contacto" style="padding:96px 0 0;display:flex;flex-direction:column;gap:12px;scroll-margin-top:80px">
+  <span style="font-size:13px;letter-spacing:.08em;text-transform:uppercase;font-weight:600;color:var(--color-accent-700)">05 · {{ t.secContact }}</span>
+  <div style="height:1px;background:var(--color-divider);margin-bottom:20px"></div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:48px 72px">
+    <div style="display:flex;flex-direction:column;gap:20px">
+      <h2 style="margin:0;font-size:clamp(36px,4vw,52px);line-height:1.05;text-transform:uppercase">{{ t.contactTitle }}</h2>
+      <p style="margin:0;font-size:17px;line-height:1.6;color:var(--color-neutral-800)">{{ t.contactBody }}</p>
+      <div style="display:flex;flex-direction:column;gap:10px;font-size:15px">
+        <a href="mailto:oscarhdzteran@gmail.com">oscarhdzteran@gmail.com</a>
+        <a href="https://www.linkedin.com/in/oscarhernandezteran">LinkedIn</a>
+        <a href="#">{{ t.cv }}</a>
+        <span style="color:var(--color-neutral-700)">{{ t.loc }}</span>
+      </div>
+    </div>
+    <form class="blueprint" style="padding:28px;display:flex;flex-direction:column;gap:16px">
+      <i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px">
+        <div class="field"><label>{{ t.fName }}</label><input class="input" type="text"></div>
+        <div class="field"><label>Email</label><input class="input" type="email"></div>
+      </div>
+      <div class="field"><label>{{ t.fMsg }}</label><textarea class="input" rows="5"></textarea></div>
+      <button type="button" class="btn btn-primary blueprint" style="align-self:flex-start;padding:10px 20px;font-size:16px"><i class="corner tl"></i><i class="corner tr"></i><i class="corner bl"></i><i class="corner br"></i>{{ t.fSend }}</button>
+    </form>
+  </div>
+</section>
+
+<footer style="margin-top:96px;padding:24px 0 40px;border-top:1px solid var(--color-divider);display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-size:13px;color:var(--color-neutral-700)">
+  <span>© 2026 Oscar Hernández Terán</span>
+  <span>{{ t.footer }}</span>
+</footer>
+</main>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;defaultLang&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;es&quot;,&quot;en&quot;],&quot;default&quot;:&quot;es&quot;,&quot;tsType&quot;:&quot;'es' | 'en'&quot;}}">
+const SKILLS = [
+  ["Google ADK", "LangGraph", "LangChain", "CrewAI", "MCP", "Prompt Engineering"],
+  ["Milvus", "Embeddings", "Chunking", "Reranking", "PostgreSQL"],
+  ["Cloud Run", "GKE", "BigQuery", "Pub/Sub", "Secret Manager", "Vertex AI"],
+  ["SARIMAX", "Prophet", "NeuralProphet"],
+  ["Python", "FastAPI", "Flask", "Streamlit", "Apache Airflow", "SQL"],
+  ["Docker", "Kubernetes", "GitHub CI/CD", "MLflow", "Grafana"]
+];
+const PTAGS = [["SARIMAX", "Prophet", "NeuralProphet"], ["Kubernetes", "Airflow", "Grafana"], ["Flask", "Airflow", "PostgreSQL", "Docker"], ["LLMOps", "OpenAI", "Benchmarking"]];
+const PMET = ["97 %", "−20 %", "−75 %", "ROI"];
+
+const DICT = {
+  es: {
+    nav0: "Proyectos", nav1: "Experiencia", nav2: "Habilidades", nav3: "Contacto",
+    cv: "Descargar CV", loc: "Veracruz, México · Remoto",
+    ctaProjects: "Ver proyectos", ctaContact: "Contactar",
+    tagline: "Llevo IA generativa a producción: agentes con RAG que bajaron la generación de informes de 4 horas a 30 minutos.",
+    bio: "Ingeniero Geofísico por la UNAM y AI Engineer con más de 4 años de experiencia diseñando soluciones de IA generativa y Agentic AI para clientes enterprise. Mi base en métodos numéricos y análisis espectral de series de tiempo me da rigor para modelar, evaluar y explicar sistemas de IA.",
+    seisTitle: "Sismograma de carrera", station: "Estación OHT · Veracruz, MX", channel: "Canal HHZ · vertical",
+    seisCap: "Registro de un sismómetro de banda ancha, como los que analicé en Geofísica. Cada evento es un cambio de rol: P marca la llegada de la onda primaria y S la de la secundaria, y la magnitud crece con el alcance de cada etapa.",
+    ev: [["EV-01 · 2021", "Ingeniería Geofísica", "UNAM"], ["EV-02 · 2022", "Data Scientist", "CBPI Consulting"], ["EV-03 · 2024 — hoy", "AI Engineer", "Minsait – Indra Group"]],
+    secMetrics: "Resultados", secProjects: "Proyectos", secExp: "Experiencia", secSkills: "Habilidades", secContact: "Contacto",
+    m: [["87.5 %", "menos tiempo en informes de inteligencia competitiva"], ["97 %", "precisión (MAPE) en proyecciones a 18 meses"], ["44 %", "entregas más rápidas con CI/CD (50 → 28 h)"], ["20 %", "menos OPEX de infraestructura, validado en auditoría"], ["75 %", "menos captura manual de datos normativos"]],
+    featKicker: "Caso destacado · Sector retail", featTitle: "Plataforma de IA generativa multiagente",
+    featDesc: "Plataforma de inteligencia competitiva con 5 agentes que redujo la generación de informes de 4 horas a 30 minutos para 40 usuarios de negocio.",
+    featM1: "por informe", featM2: "usuarios de negocio", featM3: "agentes",
+    featHl: ["Agente router que orquesta agentes especializados en RAG, forecasting y búsqueda web, con memoria conversacional en PostgreSQL.", "Agentic-RAG sobre Milvus con 5 colecciones de conocimiento, chunking y reranking para mejorar el contexto entregado al LLM.", "Herramientas y fuentes externas integradas mediante Model Context Protocol (MCP).", "Desplegada on-premise en Kubernetes, con observabilidad de agentes en Grafana."],
+    archLabel: "Arquitectura del sistema", archUser: "Usuario de negocio", archRouter: "Agente router", archMem: "memoria en PostgreSQL", archRag: "5 colecciones", archWeb: "Búsqueda web", archMcp: "Herramientas vía MCP", archDeploy: "On-premise en Kubernetes", archObs: "Observabilidad en Grafana",
+    p: [
+      ["Sector retail", "Forecasting estratégico de la competencia", "Proyecciones a 18 meses con 97% de precisión (MAPE), integradas como herramienta del agente de forecasting."],
+      ["Consumo masivo", "Pronóstico de demanda de infraestructura", "Modelos de pronóstico de demanda de cómputo para procesos ETL a gran escala que contribuyeron a reducir 20% el OPEX."],
+      ["Consultoría ambiental", "Calculadora de emisiones de carbono", "Solución full-stack en producción que redujo 75% el tiempo de captura de inventarios y llenado de formularios normativos."],
+      ["Sector retail", "Optimización de costos de LLMs", "Benchmarking de modelos fundacionales y configuraciones de tokens para elegir la combinación más rentable sin sacrificar calidad."]
+    ],
+    x: [
+      ["EV-03", "AI Engineer", "Minsait – Indra Group", "Julio 2024 — Actualidad", "Liderazgo técnico de un sistema multiagente de IA generativa para inteligencia competitiva en el sector retail (Walmart de México / Sam's Club).", ["Lideré técnicamente el diseño e implementación end-to-end de la plataforma, coordinando a un ingeniero y un becario junto con el líder de negocio.", "Reduje de 4 horas a 30 minutos (87.5%) la generación de informes de inteligencia competitiva para 40 usuarios de negocio.", "Diseñé un sistema de 5 agentes con Google ADK, LangGraph y LangChain: un agente router orquesta agentes de RAG, forecasting y búsqueda web.", "Alcancé 97% de precisión (MAPE) en proyecciones a 18 meses con SARIMAX, Prophet y NeuralProphet.", "Aceleré 44% los tiempos de entrega (de 50 a 28 horas) estandarizando CI/CD y control de versiones en GitHub."]],
+      ["EV-02", "Data Scientist", "CBPI Consulting", "Junio 2022 — Julio 2024", "Ciclo de vida completo de soluciones de ciencia de datos para clientes enterprise (AB InBev, Soriana y una consultora ambiental).", ["Desarrollé modelos de pronóstico de demanda de cómputo para AB InBev, orquestados con Docker, Kubernetes y Airflow.", "Contribuí a reducir 20% el OPEX de infraestructura, validado en la auditoría de Kubernetes del cliente.", "Construí y desplegué una calculadora de emisiones de carbono full-stack que redujo 75% la captura manual de datos normativos.", "Diseñé dashboards en Grafana sobre la salud de modelos productivos, con KPIs en tiempo real y alertas automáticas."]]
+    ],
+    edu: "Formación", eduVal: "Ingeniería Geofísica", cert: "Certificación",
+    sk: ["IA Generativa & Agentes", "Recuperación de información", "Google Cloud", "ML & Series de tiempo", "Software & Datos", "MLOps & Observabilidad"],
+    spectral: "Análisis espectral",
+    contactTitle: "Hablemos", contactBody: "Si tu equipo construye productos con LLMs, agentes o forecasting, me interesa conversar. Escríbeme y te respondo.",
+    fName: "Nombre", fMsg: "Mensaje", fSend: "Enviar mensaje",
+    footer: "De señales sísmicas a sistemas multiagente."
+  },
+  en: {
+    nav0: "Projects", nav1: "Experience", nav2: "Skills", nav3: "Contact",
+    cv: "Download CV", loc: "Veracruz, Mexico · Remote",
+    ctaProjects: "View projects", ctaContact: "Get in touch",
+    tagline: "I take generative AI to production: RAG agents that cut report generation from 4 hours to 30 minutes.",
+    bio: "Geophysical Engineer from UNAM and AI Engineer with 4+ years of experience designing generative AI and Agentic AI solutions for enterprise clients. My background in numerical methods and spectral time-series analysis gives me rigor to model, evaluate and explain AI systems.",
+    seisTitle: "Career seismogram", station: "Station OHT · Veracruz, MX", channel: "Channel HHZ · vertical",
+    seisCap: "A broadband seismometer record, like the ones I analyzed in Geophysics. Each event is a role change: P marks the primary-wave arrival and S the secondary, and magnitude grows with the scope of each stage.",
+    ev: [["EV-01 · 2021", "Geophysical Engineering", "UNAM"], ["EV-02 · 2022", "Data Scientist", "CBPI Consulting"], ["EV-03 · 2024 — present", "AI Engineer", "Minsait – Indra Group"]],
+    secMetrics: "Results", secProjects: "Projects", secExp: "Experience", secSkills: "Skills", secContact: "Contact",
+    m: [["87.5 %", "less time on competitive-intelligence reports"], ["97 %", "accuracy (MAPE) on 18-month forecasts"], ["44 %", "faster delivery with CI/CD (50 → 28 h)"], ["20 %", "lower infrastructure OPEX, audit-validated"], ["75 %", "less manual capture of regulatory data"]],
+    featKicker: "Featured case · Retail", featTitle: "Multi-agent generative AI platform",
+    featDesc: "Competitive-intelligence platform with 5 agents that cut report generation from 4 hours to 30 minutes for 40 business users.",
+    featM1: "per report", featM2: "business users", featM3: "agents",
+    featHl: ["Router agent orchestrating specialized RAG, forecasting and web-search agents, with conversational memory in PostgreSQL.", "Agentic-RAG over Milvus with 5 knowledge collections, chunking and reranking to improve the context passed to the LLM.", "External tools and sources integrated through the Model Context Protocol (MCP).", "Deployed on-premise on Kubernetes, with agent observability in Grafana."],
+    archLabel: "System architecture", archUser: "Business user", archRouter: "Router agent", archMem: "PostgreSQL memory", archRag: "5 collections", archWeb: "Web search", archMcp: "Tools via MCP", archDeploy: "On-premise on Kubernetes", archObs: "Observability in Grafana",
+    p: [
+      ["Retail", "Strategic competitor forecasting", "18-month forecasts at 97% accuracy (MAPE), integrated as a tool of the forecasting agent."],
+      ["Consumer goods", "Infrastructure demand forecasting", "Compute-demand forecasting models for large-scale ETL processes that helped cut OPEX by 20%."],
+      ["Environmental consulting", "Carbon emissions calculator", "Full-stack production solution that cut inventory capture and regulatory form-filling time by 75%."],
+      ["Retail", "LLM cost optimization", "Benchmarking of foundation models and token configurations to choose the most cost-effective combination without losing quality."]
+    ],
+    x: [
+      ["EV-03", "AI Engineer", "Minsait – Indra Group", "July 2024 — Present", "Technical lead of a multi-agent generative AI system for competitive intelligence in retail (Walmart de México / Sam's Club).", ["Led the end-to-end design and implementation of the platform, coordinating an engineer and an intern alongside the business lead.", "Cut competitive-intelligence report generation from 4 hours to 30 minutes (87.5%) for 40 business users.", "Designed a 5-agent system with Google ADK, LangGraph and LangChain: a router agent orchestrates RAG, forecasting and web-search agents.", "Reached 97% accuracy (MAPE) on 18-month forecasts with SARIMAX, Prophet and NeuralProphet.", "Sped up delivery by 44% (50 to 28 hours) by standardizing CI/CD and version control on GitHub."]],
+      ["EV-02", "Data Scientist", "CBPI Consulting", "June 2022 — July 2024", "Full lifecycle of data-science solutions for enterprise clients (AB InBev, Soriana and an environmental consultancy).", ["Built compute-demand forecasting models for AB InBev, orchestrated with Docker, Kubernetes and Airflow.", "Helped cut infrastructure OPEX by 20%, validated in the client's Kubernetes audit.", "Built and deployed a full-stack carbon emissions calculator that cut manual regulatory data capture by 75%.", "Designed Grafana dashboards on production model health, with real-time KPIs and automated alerts."]]
+    ],
+    edu: "Education", eduVal: "Geophysical Engineering", cert: "Certification",
+    sk: ["Generative AI & Agents", "Information retrieval", "Google Cloud", "ML & Time series", "Software & Data", "MLOps & Observability"],
+    spectral: "Spectral analysis",
+    contactTitle: "Let's talk", contactBody: "If your team builds products with LLMs, agents or forecasting, I'd like to hear about it. Write to me and I'll get back to you.",
+    fName: "Name", fMsg: "Message", fSend: "Send message",
+    footer: "From seismic signals to multi-agent systems."
+  }
+};
+
+function buildTrace() {
+  const W = 1300, mid = 150, N = 1400;
+  const ev = [[0.242, 0.022, 34], [0.325, 0.022, 58], [0.667, 0.022, 96]];
+  const rnd = i => { const s = Math.sin(i * 12.9898) * 43758.5453; return s - Math.floor(s) - 0.5; };
+  let d = "";
+  for (let i = 0; i <= N; i++) {
+    const t = i / N;
+    let y = rnd(i) * 3 + Math.sin(i * 0.31) * 1.2;
+    for (const [p, ds, a] of ev) {
+      if (t > p) { const dt = t - p; y += a * 0.32 * Math.exp(-dt * 90) * Math.sin(dt * 2600) * (0.6 + Math.abs(rnd(i + 7))); }
+      const s = p + ds;
+      if (t > s) { const dt = t - s; const env = Math.min(1, dt * 400) * Math.exp(-dt * 28); y += a * env * Math.sin(dt * 1100 + rnd(i) * 0.6) * (0.65 + 0.7 * Math.abs(rnd(i + 31))); }
+    }
+    d += (i ? "L" : "M") + (t * W).toFixed(1) + " " + Math.max(4, Math.min(296, mid + y)).toFixed(1);
+  }
+  return d;
+}
+
+class Component extends DCLogic {
+  state = { lang: this.props.defaultLang ?? "es" };
+  trace = buildTrace();
+  renderVals() {
+    const L = DICT[this.state.lang];
+    const t = {
+      ...L,
+      projects: L.p.map((r, i) => ({ sector: r[0], title: r[1], desc: r[2], metric: PMET[i], tags: PTAGS[i] })),
+      exp: L.x.map(r => ({ code: r[0], role: r[1], company: r[2], period: r[3], summary: r[4], ach: r[5] })),
+      skills: L.sk.map((c, i) => ({ cat: c, items: i === 3 ? [...SKILLS[3], L.spectral] : SKILLS[i] }))
+    };
+    return {
+      t,
+      events: L.ev.map(r => ({ code: r[0], role: r[1], org: r[2] })),
+      metrics: L.m.map(r => ({ v: r[0], l: r[1] })),
+      traceD: this.trace,
+      isEs: this.state.lang === "es", isEn: this.state.lang === "en",
+      setEs: () => this.setState({ lang: "es" }),
+      setEn: () => this.setState({ lang: "en" })
+    };
+  }
+}
+</script>
+</body>
+</html>

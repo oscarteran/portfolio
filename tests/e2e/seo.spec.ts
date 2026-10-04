@@ -1,16 +1,25 @@
 import { expect, test } from "@playwright/test";
-import { site } from "../../src/data/site";
+import { getSite } from "../../src/data/site";
 
-test("page exposes title, description, Open Graph and JSON-LD", async ({ page }) => {
-  await page.goto("/");
-  await expect(page).toHaveTitle(`${site.name} — ${site.role}`);
-  await expect(page.locator('meta[name="description"]')).toHaveAttribute("content", site.tagline);
-  await expect(page.locator('meta[property="og:image"]')).toHaveAttribute("content", /opengraph-image/);
-  await expect(page.locator('link[rel="canonical"]')).toBeAttached();
+for (const { locale, path } of [
+  { locale: "es", path: "/" },
+  { locale: "en", path: "/en" },
+] as const) {
+  test(`${path} exposes title, description, Open Graph, hreflang and JSON-LD`, async ({ page }) => {
+    const site = getSite(locale);
+    await page.goto(path);
+    await expect(page.locator("html")).toHaveAttribute("lang", locale);
+    await expect(page).toHaveTitle(`${site.name} — ${site.role}`);
+    await expect(page.locator('meta[name="description"]')).toHaveAttribute("content", site.tagline);
+    await expect(page.locator('meta[property="og:image"]')).toHaveAttribute("content", /opengraph-image/);
+    await expect(page.locator('link[rel="canonical"]')).toBeAttached();
+    await expect(page.locator('link[rel="alternate"][hreflang="es"]')).toBeAttached();
+    await expect(page.locator('link[rel="alternate"][hreflang="en"]')).toBeAttached();
 
-  const jsonLd = JSON.parse(await page.locator('script[type="application/ld+json"]').innerText());
-  expect(jsonLd).toMatchObject({ "@type": "Person", name: site.name, jobTitle: site.role });
-});
+    const jsonLd = JSON.parse(await page.locator('script[type="application/ld+json"]').innerText());
+    expect(jsonLd).toMatchObject({ "@type": "Person", name: site.name, jobTitle: site.role, description: site.bio });
+  });
+}
 
 test("metadata routes respond", async ({ request }) => {
   const robots = await request.get("/robots.txt");
@@ -19,7 +28,9 @@ test("metadata routes respond", async ({ request }) => {
 
   const sitemap = await request.get("/sitemap.xml");
   expect(sitemap.ok()).toBe(true);
-  expect(await sitemap.text()).toContain("<urlset");
+  const xml = await sitemap.text();
+  expect(xml).toContain("<urlset");
+  expect(xml).toContain("/en</loc>");
 
   for (const path of ["/opengraph-image", "/icon"]) {
     const image = await request.get(path);

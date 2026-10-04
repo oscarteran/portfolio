@@ -51,19 +51,22 @@ En cada push y pull request, [GitHub Actions](.github/workflows/ci.yml) ejecuta 
 ```
 src/
   app/
-    layout.tsx            fuentes, metadata SEO/Open Graph, JSON-LD (Person), skip link
-    page.tsx              composición de secciones
+    (es)/layout.tsx, page.tsx      "/" en español (layout raíz con <html lang="es">)
+    (en)/en/layout.tsx, page.tsx   "/en" en inglés (layout raíz con <html lang="en">)
+    global-not-found.tsx  404 para URLs desconocidas (hay un layout raíz por idioma)
     actions.ts            Server Action del formulario de contacto (Resend)
     opengraph-image.tsx   imagen para compartir generada con next/og
     icon.tsx              favicon generado
     robots.ts, sitemap.ts
-  components/             secciones (Hero, Projects, Experience…) y piezas compartidas
-  data/                   todo el contenido editable, separado de la UI
-  lib/                    hooks y utilidades (validación de contacto, estilos de botón, reduced motion)
+  components/             HomePage compone las secciones (Hero, Seismogram, Metrics, Projects…); Blueprint es el marco con cruces de registro
+  data/                   todo el contenido editable, en ES y EN ({ es, en }), con getters por idioma
+  lib/                    i18n, metadata/SEO, fuentes, trazo del sismograma, validación de contacto, reduced motion
 ```
 
 ## Decisiones técnicas
 
+- **Bilingüe con rutas.** `/` (español) y `/en` (inglés) son páginas estáticas con su propio `lang`, metadata, `hreflang` y JSON-LD. Los textos de interfaz están en `data/ui.ts`.
+- **Diseño "Industry / Sismograma".** Tokens en `src/app/globals.css`; la referencia original está en `Rediseño portafolio personal AI Engineer/`.
 - **Contenido como datos.** Textos, proyectos y experiencia viven en `src/data/`, tipados; los componentes no tienen copy hardcodeado.
 - **Formulario con Server Action.** La validación está en `lib/contact.ts` y la comparten cliente y servidor: el cliente evita round-trips innecesarios y el servidor vuelve a validar. Incluye honeypot anti-spam y rate limit por IP (best-effort, por instancia). Si no hay proveedor configurado, cae a `mailto:` para no romperse.
 - **Accesibilidad.** Respeta `prefers-reduced-motion` en todas las animaciones sin romper la hidratación (`useSafeReducedMotion`), modal con focus trap y restauración de foco, navegación por teclado, skip link y estados `aria-*` en el formulario.

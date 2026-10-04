@@ -1,56 +1,36 @@
-import { Download, Mail } from "lucide-react";
-import { site } from "@/data/site";
+import type { Site } from "@/data/site";
+import type { Dictionary } from "@/data/ui";
+import type { Locale } from "@/lib/i18n";
 import ContactForm from "./ContactForm";
-import { GithubIcon, LinkedinIcon } from "./icons";
 import Section from "./Section";
 
-export default function Contact() {
+export default function Contact({ site, ui, locale }: { site: Site; ui: Dictionary; locale: Locale }) {
   return (
-    <Section id="contacto" eyebrow="Contacto" title="hablemos">
-        <div className="grid gap-12 xl:grid-cols-2 xl:items-start xl:gap-16">
-          <div>
-            <p className="max-w-md text-base leading-relaxed text-muted sm:text-lg">
-              ¿Tienes un proyecto en mente o una oportunidad para conversar? Escríbeme, con gusto te
-              respondo.
-            </p>
-            <div className="mt-6 flex flex-col gap-3 text-sm">
-              <a
-                href={`mailto:${site.email}`}
-                className="flex w-fit items-center gap-2 font-mono text-muted transition-colors hover:text-accent-2"
-              >
-                <Mail size={16} /> {site.email}
+    <Section id="contacto" number="05" label={ui.sections.contact} spacing="md">
+      <div className="grid grid-cols-[repeat(auto-fit,minmax(min(100%,420px),1fr))] gap-x-[72px] gap-y-12">
+        <div className="flex flex-col gap-5">
+          <h3 className="text-[clamp(36px,4vw,52px)] uppercase leading-[1.05]">{ui.contactTitle}</h3>
+          <p className="text-[17px] leading-[1.6] text-neutral-800">{ui.contactBody}</p>
+          <div className="flex flex-col items-start gap-2.5 text-[15px]">
+            <a href={`mailto:${site.email}`}>{site.email}</a>
+            {site.social.linkedin && (
+              <a href={site.social.linkedin} target="_blank" rel="noopener noreferrer">
+                LinkedIn
               </a>
-              {site.social.github && (
-                <a
-                  href={site.social.github}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex w-fit items-center gap-2 text-muted transition-colors hover:text-accent-2"
-                >
-                  <GithubIcon size={16} /> GitHub
-                </a>
-              )}
-              {site.social.linkedin && (
-                <a
-                  href={site.social.linkedin}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex w-fit items-center gap-2 text-muted transition-colors hover:text-accent-2"
-                >
-                  <LinkedinIcon size={16} /> LinkedIn
-                </a>
-              )}
-              <a
-                href={site.cvUrl}
-                download={site.cvFileName}
-                className="flex w-fit items-center gap-2 text-muted transition-colors hover:text-accent-2"
-              >
-                <Download size={16} /> Descargar CV
+            )}
+            {site.social.github && (
+              <a href={site.social.github} target="_blank" rel="noopener noreferrer">
+                GitHub
               </a>
-            </div>
+            )}
+            <a href={site.cvUrl} download={site.cvFileName}>
+              {ui.cv}
+            </a>
+            <span className="text-neutral-700">{site.location}</span>
           </div>
-          <ContactForm />
         </div>
+        <ContactForm locale={locale} email={site.email} ui={ui.form} />
+      </div>
     </Section>
   );
 }

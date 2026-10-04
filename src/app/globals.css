@@ -1,105 +1,228 @@
 @import "tailwindcss";
 
-:root {
-  color-scheme: dark;
-  --background: #15171c;
-  --foreground: #eef0f2;
-  --muted: #9ba0aa;
-  --card: #1d2028;
-  --border: #2b2e37;
-  --accent: #ffffff;
-  --accent-foreground: #15171c;
-  --accent-2: oklch(80% 0.13 86);
-  --danger: #e5675f;
+/* "Industry" design system: a light, technical blueprint look with a single steel accent.
+   Values mirror the design handoff (ds/styles.css). The base accent (#5980a6) is never used
+   for small text; use accent-700 for that. */
+@theme {
+  --color-bg: #f2f2f3;
+  --color-surface: #e9e9ea;
+  --color-text: #1d1f20;
+  --color-divider: color-mix(in srgb, #1d1f20 16%, transparent);
+  --color-rule: color-mix(in srgb, #1d1f20 8%, transparent);
+
+  --color-accent: #5980a6;
+  --color-accent-100: #eef6ff;
+  --color-accent-600: #597ea3;
+  --color-accent-700: #416180;
+  --color-accent-800: #2c455d;
+
+  --color-neutral-100: #f5f5f8;
+  --color-neutral-400: #b7b7ba;
+  --color-neutral-500: #98989b;
+  --color-neutral-700: #5d5d60;
+  --color-neutral-800: #424244;
+
+  --color-danger: #b3261e;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --color-muted: var(--muted);
-  --color-card: var(--card);
-  --color-border: var(--border);
-  --color-accent: var(--accent);
-  --color-accent-foreground: var(--accent-foreground);
-  --color-accent-2: var(--accent-2);
-  --color-danger: var(--danger);
-  --font-sans: var(--font-archivo);
-  --font-mono: var(--font-plex-mono);
+  --font-sans: var(--font-barlow), system-ui, sans-serif;
+  --font-heading: var(--font-barlow-condensed), system-ui, sans-serif;
 }
 
-body {
-  background-color: var(--background);
-  background-image: radial-gradient(
-    900px circle at 10% -10%,
-    color-mix(in oklab, var(--accent) 6%, transparent),
-    transparent 60%
-  );
-  background-repeat: no-repeat;
-  color: var(--foreground);
-}
+@layer base {
+  :root {
+    color-scheme: light;
+  }
 
-html {
-  scroll-behavior: smooth;
-}
+  html {
+    scroll-behavior: smooth;
+  }
 
-:focus-visible {
-  outline: 2px solid var(--accent);
-  outline-offset: 2px;
-}
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
 
-.custom-cursor-active,
-.custom-cursor-active * {
-  cursor: none !important;
-}
+  body {
+    background: var(--color-bg);
+    color: var(--color-text);
+    font-family: var(--font-sans);
+    font-size: 15px;
+    line-height: 1.55;
+    text-wrap: pretty;
+  }
 
-.custom-cursor-active input,
-.custom-cursor-active textarea {
-  cursor: text !important;
-}
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-heading);
+    font-weight: 600;
+    line-height: 1.12;
+    letter-spacing: -0.015em;
+  }
 
-@media (pointer: coarse) {
-  .custom-cursor-active,
-  .custom-cursor-active * {
-    cursor: auto !important;
+  a {
+    color: var(--color-accent-700);
+    text-underline-offset: 3px;
+  }
+
+  a:hover {
+    color: var(--color-accent-800);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+  }
+
+  ::selection {
+    background: color-mix(in srgb, var(--color-accent) 30%, transparent);
+  }
+
+  /* Anchored sections clear the sticky navbar. */
+  section[id] {
+    scroll-margin-top: 80px;
   }
 }
 
-@keyframes visual-pulse {
-  0%,
-  100% {
-    opacity: 1;
-    transform: scale(1);
+@layer components {
+  /* Blueprint frame: hairline border and no fill. */
+  .blueprint {
+    position: relative;
+    border: 1px solid var(--color-divider);
   }
-  50% {
-    opacity: 0.85;
-    transform: scale(1.06);
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    flex-shrink: 0;
+    cursor: pointer;
+    white-space: nowrap;
+    text-decoration: none;
+    font-family: var(--font-heading);
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 1.2;
+    padding: 10px 20px;
+    color: var(--color-text);
+    background: transparent;
+    border: 1px solid var(--color-divider);
+  }
+
+  .btn:hover {
+    color: var(--color-text);
+  }
+
+  .btn:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+  }
+
+  .btn-lg {
+    font-size: 16px;
+  }
+
+  .btn-primary,
+  .btn-primary:hover {
+    color: var(--color-bg);
+    background: var(--color-accent);
+    border-color: var(--color-accent);
+  }
+
+  .btn-primary:hover {
+    background: var(--color-accent-600);
+  }
+
+  .btn-primary:active {
+    background: var(--color-accent-700);
+  }
+
+  .btn-secondary:hover {
+    background: color-mix(in srgb, var(--color-text) 7%, transparent);
+  }
+
+  .btn-secondary:active {
+    background: color-mix(in srgb, var(--color-text) 14%, transparent);
+  }
+
+  .tag {
+    display: inline-flex;
+    align-items: center;
+    flex-shrink: 0;
+    white-space: nowrap;
+    font-size: 11px;
+    letter-spacing: 0.02em;
+    padding: 3px 10px;
+  }
+
+  .tag-outline {
+    border: 1px solid var(--color-accent);
+    color: var(--color-accent);
+  }
+
+  .tag-neutral {
+    background: var(--color-neutral-100);
+    color: var(--color-neutral-800);
+  }
+
+  .tag-accent {
+    background: var(--color-accent-100);
+    color: var(--color-accent-800);
+  }
+
+  .kicker {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-accent-700);
+  }
+
+  .input {
+    width: 100%;
+    min-height: 36px;
+    padding: 6px 10px;
+    font: inherit;
+    font-size: 14px;
+    color: var(--color-text);
+    caret-color: var(--color-accent);
+    background: var(--color-surface);
+    border: 1px solid var(--color-divider);
+  }
+
+  .input:hover {
+    border-color: color-mix(in srgb, var(--color-text) 45%, transparent);
+  }
+
+  .input:focus-visible {
+    border-color: var(--color-accent);
+    outline-offset: 0;
+  }
+
+  .input[aria-invalid="true"] {
+    border-color: var(--color-danger);
+  }
+
+  textarea.input {
+    min-height: 90px;
+    resize: vertical;
+  }
+
+  .field-label {
+    display: block;
+    font-size: 12px;
+    margin-bottom: 5px;
+    color: color-mix(in srgb, var(--color-text) 70%, transparent);
   }
 }
 
-@keyframes visual-flow {
-  0%,
-  100% {
-    stroke-opacity: 0.5;
-  }
-  50% {
-    stroke-opacity: 0.3;
-  }
-}
-
-/* Distance matches ReceiptVisual's receipt height (SVG user units). */
-@keyframes visual-scan {
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(24px);
-  }
-}
-
-/* Hero mountains: ridges reveal left-to-right, then their fill fades in. Under reduced
-   motion the animation is dropped and elements simply render in their final state. */
-@keyframes mountain-draw {
+/* Seismogram trace draws in left-to-right; under reduced motion it renders in its final state. */
+@keyframes trace-draw {
   from {
     clip-path: inset(0 100% 0 0);
   }
@@ -108,36 +231,12 @@ html {
   }
 }
 
-@keyframes mountain-fade {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-.mountain-draw {
-  animation: mountain-draw 1.6s cubic-bezier(0.16, 1, 0.3, 1) both;
-}
-
-.mountain-fade {
-  animation: mountain-fade 0.9s ease-out both;
+.trace-draw {
+  animation: trace-draw 1.6s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .mountain-draw,
-  .mountain-fade {
+  .trace-draw {
     animation: none;
-  }
-}
-
-@keyframes visual-roll {
-  0%,
-  100% {
-    transform: rotate(-7deg);
-  }
-  50% {
-    transform: rotate(7deg);
   }
 }

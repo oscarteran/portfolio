@@ -22,6 +22,11 @@ test.describe("validateContact", () => {
     }
   });
 
+  test("speaks the page's language", () => {
+    expect(validateContact({ ...valid, email: "" }, "en").email).toBe("I need an email to reply to you.");
+    expect(validateContact({ ...valid, email: "" }).email).toBe("Necesito un email para responderte.");
+  });
+
   test("enforces length limits", () => {
     const errors = validateContact({
       name: "a".repeat(LIMITS.name + 1),

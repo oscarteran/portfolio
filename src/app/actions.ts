@@ -1,8 +1,15 @@
 "use server";
 
 import { headers } from "next/headers";
-import { site } from "@/data/site";
-import { HONEYPOT_FIELD, readContactValues, validateContact, type ContactState } from "@/lib/contact";
+import { getSite } from "@/data/site";
+import {
+  HONEYPOT_FIELD,
+  contactMessages,
+  readContactValues,
+  readLocale,
+  validateContact,
+  type ContactState,
+} from "@/lib/contact";
 
 const RATE_LIMIT_WINDOW_MS = 10 * 60 * 1000;
 const RATE_LIMIT_MAX = 3;
@@ -28,8 +35,10 @@ export async function sendContact(_prev: ContactState, formData: FormData): Prom
   // Bots get a fake success so they have no signal to adapt to.
   if (formData.get(HONEYPOT_FIELD)) return { status: "success" };
 
+  const locale = readLocale(formData);
+  const m = contactMessages(locale);
   const values = readContactValues(formData);
-  const errors = validateContact(values);
+  const errors = validateContact(values, locale);
   if (Object.keys(errors).length > 0) return { status: "invalid", errors };
 
   const apiKey = process.env.RESEND_API_KEY;
@@ -37,9 +46,7 @@ export async function sendContact(_prev: ContactState, formData: FormData): Prom
 
   const requestHeaders = await headers();
   const ip = requestHeaders.get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown";
-  if (isRateLimited(ip)) {
-    return { status: "error", message: "Recibí varios mensajes seguidos. Intenta de nuevo en unos minutos." };
-  }
+  if (isRateLimited(ip)) return { status: "error", message: m.rateLimited };
 
   try {
     const response = await fetch("https://api.resend.com/emails", {
@@ -47,7 +54,7 @@ export async function sendContact(_prev: ContactState, formData: FormData): Prom
       headers: { Authorization: `Bearer ${apiKey}`, "Content-Type": "application/json" },
       body: JSON.stringify({
         from: process.env.CONTACT_FROM_EMAIL ?? "Portfolio <onboarding@resend.dev>",
-        to: [process.env.CONTACT_TO_EMAIL ?? site.email],
+        to: [process.env.CONTACT_TO_EMAIL ?? getSite(locale).email],
         reply_to: values.email,
         subject: `Contacto desde el portfolio - ${values.name}`,
         text: `${values.message}\n\n—\n${values.name} <${values.email}>`,
@@ -55,11 +62,11 @@ export async function sendContact(_prev: ContactState, formData: FormData): Prom
     });
     if (!response.ok) {
       console.error("Resend rejected the contact email", response.status, await response.text());
-      return { status: "error", message: "No pude enviar el mensaje. Intenta de nuevo o escríbeme directo por email." };
+      return { status: "error", message: m.sendFailed };
     }
   } catch (error) {
     console.error("Contact email request failed", error);
-    return { status: "error", message: "No pude enviar el mensaje. Intenta de nuevo o escríbeme directo por email." };
+    return { status: "error", message: m.sendFailed };
   }
 
   return { status: "success" };

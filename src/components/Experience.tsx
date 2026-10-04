@@ -1,129 +1,60 @@
-"use client";
-
-import { useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
-import { ChevronDown } from "lucide-react";
-import { experience, type ExperienceItem } from "@/data/experience";
-import { useSafeReducedMotion } from "@/lib/useSafeReducedMotion";
-import Reveal from "./Reveal";
+import type { certification as Certification, getEducation, getExperience } from "@/data/experience";
+import type { Dictionary } from "@/data/ui";
+import Blueprint from "./Blueprint";
+import DashList from "./DashList";
 import Section from "./Section";
 
-const EASE = [0.16, 1, 0.3, 1] as const;
+type Props = {
+  ui: Dictionary;
+  experience: ReturnType<typeof getExperience>;
+  education: ReturnType<typeof getEducation>;
+  certification: typeof Certification;
+};
 
-export default function Experience() {
-  const reduceMotion = useSafeReducedMotion();
-  const [open, setOpen] = useState<ReadonlySet<number>>(() => new Set());
-
-  function toggle(index: number) {
-    setOpen((current) => {
-      const next = new Set(current);
-      if (next.has(index)) next.delete(index);
-      else next.add(index);
-      return next;
-    });
-  }
-
+function CredentialCard({ kicker, title, meta }: { kicker: string; title: string; meta: string }) {
   return (
-    <Section id="experiencia" eyebrow="Trayectoria" title="experiencia">
-      <ol className="max-w-4xl">
-        {experience.map((item, i) => (
-          <li key={`${item.company}-${item.role}`}>
-            <Reveal index={i} className="grid gap-2 sm:grid-cols-[190px_minmax(0,1fr)] sm:gap-10">
-              <p className="font-mono text-xs text-muted sm:whitespace-nowrap sm:pt-1.5 sm:text-right">{item.period}</p>
-              <div className={`relative border-l border-border pl-8 ${i === experience.length - 1 ? "pb-2" : "pb-12"}`}>
-                <span
-                  aria-hidden="true"
-                  className="absolute -left-[5.5px] top-1.5 h-2.5 w-2.5 rounded-full border-2 border-background bg-accent-2"
-                />
-                <Entry
-                  item={item}
-                  id={`experiencia-${i}`}
-                  expanded={open.has(i)}
-                  onToggle={() => toggle(i)}
-                  reduceMotion={reduceMotion}
-                />
-              </div>
-            </Reveal>
-          </li>
-        ))}
-      </ol>
-    </Section>
+    <Blueprint className="flex flex-col gap-1 p-5">
+      <span className="text-[12px] font-semibold uppercase tracking-[0.08em] text-accent-700">{kicker}</span>
+      <span className="font-heading text-[22px] font-semibold">{title}</span>
+      <span className="text-[14px] text-neutral-700">{meta}</span>
+    </Blueprint>
   );
 }
 
-function Entry({
-  item,
-  id,
-  expanded,
-  onToggle,
-  reduceMotion,
-}: {
-  item: ExperienceItem;
-  id: string;
-  expanded: boolean;
-  onToggle: () => void;
-  reduceMotion: boolean;
-}) {
-  const heading = (
-    <>
-      <h3 className="font-bold text-xl">{item.role}</h3>
-      <p className="mt-1 text-sm text-accent-2">{item.company}</p>
-    </>
-  );
-
-  if (item.achievements.length === 0) {
-    return (
-      <div>
-        {heading}
-        {item.summary && <p className="mt-3 text-[15px] leading-relaxed text-muted">{item.summary}</p>}
-      </div>
-    );
-  }
-
-  const panelId = `${id}-logros`;
-
+export default function Experience({ ui, experience, education, certification }: Props) {
   return (
-    <div>
-      <button
-        type="button"
-        onClick={onToggle}
-        aria-expanded={expanded}
-        aria-controls={panelId}
-        className="group block w-full text-left"
-      >
-        {heading}
-        {item.summary && <p className="mt-3 text-[15px] leading-relaxed text-muted">{item.summary}</p>}
-        <span className="mt-3 inline-flex items-center gap-1.5 text-xs font-medium uppercase tracking-wider text-muted transition-colors group-hover:text-accent-2">
-          {expanded ? "Ocultar logros" : `Ver logros (${item.achievements.length})`}
-          <ChevronDown
-            size={14}
-            className={`transition-transform duration-200 motion-reduce:transition-none ${expanded ? "rotate-180" : ""}`}
-          />
-        </span>
-      </button>
-
-      <AnimatePresence initial={false}>
-        {expanded && (
-          <motion.div
-            id={panelId}
-            key="logros"
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: reduceMotion ? 0 : 0.25, ease: EASE }}
-            className="overflow-hidden"
-          >
-            <ul className="space-y-3 pt-4 text-[15px] leading-relaxed text-muted">
-              {item.achievements.map((achievement) => (
-                <li key={achievement}>
-                  <span className="text-accent-2">— </span>
-                  {achievement}
-                </li>
-              ))}
-            </ul>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </div>
+    <Section id="experiencia" number="03" label={ui.sections.experience}>
+      {experience.map((job) => (
+        <article
+          key={job.code}
+          className="grid grid-cols-[repeat(auto-fit,minmax(min(100%,260px),1fr))] gap-x-12 gap-y-3 border-b border-rule pb-8 pt-6"
+        >
+          <div className="flex flex-col gap-1.5">
+            <span className="text-[12px] font-semibold tracking-[0.08em] text-accent-700">{job.code}</span>
+            <h3 className="text-[28px]">{job.role}</h3>
+            <span className="text-[15px] font-medium">{job.company}</span>
+            <span className="text-[13px] text-neutral-700">{job.period}</span>
+          </div>
+          {/* Spanning 2 columns would add an implicit column (and overflow) once the grid
+              collapses to one column, below ~632px of viewport. */}
+          <div className="col-span-2 flex min-w-0 flex-col gap-3.5 max-[639px]:col-span-1">
+            <p className="text-[16px] leading-[1.6]">{job.summary}</p>
+            <DashList items={job.achievements} className="gap-2" />
+          </div>
+        </article>
+      ))}
+      <div className="grid grid-cols-[repeat(auto-fit,minmax(min(100%,260px),1fr))] gap-7 pt-7">
+        <CredentialCard
+          kicker={ui.education}
+          title={education.degree}
+          meta={`${education.school} · ${education.year}`}
+        />
+        <CredentialCard
+          kicker={ui.certification}
+          title={certification.name}
+          meta={`${certification.issuer} · ${certification.year}`}
+        />
+      </div>
+    </Section>
   );
 }

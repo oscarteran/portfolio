@@ -1,62 +1,45 @@
-import { ExternalLink } from "lucide-react";
-import { personalProjects } from "@/data/personalProjects";
-import { buttonClass } from "@/lib/styles";
-import Card from "./Card";
-import { GithubIcon } from "./icons";
-import ProjectVisual from "./ProjectVisual";
-import Reveal from "./Reveal";
+import type { getPersonalProjects } from "@/data/personalProjects";
+import type { Dictionary } from "@/data/ui";
+import Blueprint from "./Blueprint";
 import Section from "./Section";
-import Tag from "./Tag";
 
-export default function PersonalProjects() {
+/** Only rendered when there are personal projects; numbered after Projects. */
+export default function PersonalProjects({
+  ui,
+  projects,
+}: {
+  ui: Dictionary;
+  projects: ReturnType<typeof getPersonalProjects>;
+}) {
   return (
-    <Section id="proyectos-personales" eyebrow="Fuera del trabajo" title="proyectos personales">
-      <div className="grid gap-6 sm:grid-cols-2">
-        {personalProjects.map((project, i) => (
-          <Reveal key={project.title} index={i}>
-            <Card className="flex h-full flex-col">
-              <div className="relative h-32 shrink-0 overflow-hidden rounded-md border border-border bg-background/40 text-accent/70 sm:h-36">
-                <ProjectVisual kind={project.visual} seed={project.title} />
-              </div>
-
-              <h3 className="mt-5 font-bold text-xl">{project.title}</h3>
-              <p className="mt-3 text-[15px] leading-relaxed text-muted">{project.description}</p>
-
-              {project.highlights && project.highlights.length > 0 && (
-                <ul className="mt-4 space-y-2 text-sm leading-relaxed text-muted">
-                  {project.highlights.map((highlight) => (
-                    <li key={highlight}>
-                      <span className="text-accent-2">— </span>
-                      {highlight}
-                    </li>
-                  ))}
-                </ul>
-              )}
-
-              <div className="mt-4 flex flex-wrap gap-2">
-                {project.tags.map((tag) => (
-                  <Tag key={tag} className="font-mono">
-                    {tag}
-                  </Tag>
-                ))}
-              </div>
-
-              <div className="mt-auto flex flex-wrap items-center gap-3 pt-6">
+    <Section id="proyectos-personales" number="02b" label={ui.sections.personalProjects}>
+      <div className="grid grid-cols-[repeat(auto-fit,minmax(min(100%,280px),1fr))] gap-7">
+        {projects.map((project) => (
+          <Blueprint as="article" key={project.title} className="flex flex-col gap-2.5 p-[22px]">
+            <h3 className="text-[21px] leading-[1.2]">{project.title}</h3>
+            <p className="flex-1 text-[14px] leading-[1.55] text-neutral-800">{project.description}</p>
+            <div className="flex flex-wrap gap-1.5 pt-1.5">
+              {project.tags.map((tag) => (
+                <span key={tag} className="tag tag-neutral">
+                  {tag}
+                </span>
+              ))}
+            </div>
+            {(project.demoUrl || project.repoUrl) && (
+              <div className="flex gap-4 pt-1 text-[14px]">
                 {project.demoUrl && (
-                  <a href={project.demoUrl} target="_blank" rel="noopener noreferrer" className={buttonClass.primary}>
-                    Ver demo
-                    <ExternalLink size={15} />
+                  <a href={project.demoUrl} target="_blank" rel="noopener noreferrer">
+                    {ui.demo}
                   </a>
                 )}
                 {project.repoUrl && (
-                  <a href={project.repoUrl} target="_blank" rel="noopener noreferrer" className={buttonClass.secondary}>
-                    Ver código
-                    <GithubIcon size={15} />
+                  <a href={project.repoUrl} target="_blank" rel="noopener noreferrer">
+                    {ui.repo}
                   </a>
                 )}
               </div>
-            </Card>
-          </Reveal>
+            )}
+          </Blueprint>
         ))}
       </div>
     </Section>

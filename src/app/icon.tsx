@@ -3,7 +3,7 @@ import { ImageResponse } from "next/og";
 export const size = { width: 64, height: 64 };
 export const contentType = "image/png";
 
-// Same initials badge as the navbar logo.
+// Initials in the blueprint frame: light ground, hairline border, steel accent.
 export default function Icon() {
   return new ImageResponse(
     (
@@ -14,15 +14,15 @@ export default function Icon() {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          backgroundColor: "#15171c",
-          border: "3px solid #2b2e37",
-          borderRadius: 10,
-          color: "#e0bb4f",
+          backgroundColor: "#f2f2f3",
+          border: "3px solid #416180",
+          color: "#416180",
           fontSize: 30,
           fontWeight: 700,
+          letterSpacing: -1,
         }}
       >
-        PA
+        OH
       </div>
     ),
     size
