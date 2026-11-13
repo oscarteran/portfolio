@@ -42,13 +42,21 @@ test.describe("home", () => {
     expect(overflows).toBe(false);
   });
 
-  test("CV download link points at an existing PDF", async ({ page, request }) => {
+  test("CV button opens a menu with an existing PDF per language", async ({ page, request }) => {
     await page.goto("/");
-    const href = await page.getByRole("link", { name: "Descargar CV" }).first().getAttribute("href");
-    expect(href).toBe(site.cvUrl);
-    const response = await request.get(href!);
-    expect(response.ok()).toBe(true);
-    expect(response.headers()["content-type"]).toContain("pdf");
+    const button = page.getByRole("banner").getByRole("button", { name: "Descargar CV" });
+    await button.click();
+    await expect(button).toHaveAttribute("aria-expanded", "true");
+    for (const cv of site.cvs) {
+      const link = page.getByRole("banner").getByRole("link", { name: `CV · ${cv.label}` });
+      await expect(link).toBeVisible();
+      await expect(link).toHaveAttribute("href", cv.url);
+      const response = await request.get(cv.url);
+      expect(response.ok()).toBe(true);
+      expect(response.headers()["content-type"]).toContain("pdf");
+    }
+    await page.keyboard.press("Escape");
+    await expect(button).toHaveAttribute("aria-expanded", "false");
   });
 
   test("draws the career seismogram with one event per stage", async ({ page }) => {
@@ -98,7 +106,7 @@ test.describe("language", () => {
     const errors = trackErrors(page);
     await page.goto("/en");
     await expect(page.getByRole("heading", { level: 1 })).toContainText(site.name.split(" ")[0]);
-    await expect(page.getByRole("link", { name: "Download CV" }).first()).toHaveAttribute("href", site.cvUrl);
+    await expect(page.getByRole("banner").getByRole("button", { name: "Download CV" })).toBeVisible();
     await page.waitForLoadState("networkidle");
     expect(errors).toEqual([]);
   });

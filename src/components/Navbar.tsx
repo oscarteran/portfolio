@@ -1,7 +1,7 @@
 import type { Site } from "@/data/site";
 import type { Dictionary } from "@/data/ui";
 import type { Locale } from "@/lib/i18n";
-import Blueprint from "./Blueprint";
+import CvMenu from "./CvMenu";
 import LanguageSwitch from "./LanguageSwitch";
 
 export default function Navbar({ site, ui, locale }: { site: Site; ui: Dictionary; locale: Locale }) {
@@ -22,11 +22,7 @@ export default function Navbar({ site, ui, locale }: { site: Site; ui: Dictionar
           ))}
         </nav>
         <LanguageSwitch locale={locale} label={ui.languageLabel} />
-        {/* On phones the label shrinks to "CV" so brand, language and CV share one row. */}
-        <Blueprint as="a" href={site.cvUrl} download={site.cvFileName} aria-label={ui.cv} className="btn btn-primary">
-          <span className="max-[479px]:hidden">{ui.cv}</span>
-          <span className="min-[480px]:hidden">CV</span>
-        </Blueprint>
+        <CvMenu cvs={site.cvs} label={ui.cv} />
       </div>
     </header>
   );

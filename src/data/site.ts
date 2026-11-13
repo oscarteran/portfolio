@@ -8,8 +8,21 @@ const siteBase = {
   // `||`, not `??`: an unset Docker ARG arrives as "" rather than undefined.
   url: process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000",
   email: "oscarhdzteran@gmail.com",
-  cvUrl: "/CV_Oscar_Hernandez_Teran.pdf",
-  cvFileName: "Oscar-Hernandez-Teran-CV.pdf",
+  // One CV per language; labels are in their own language so they read the same on both pages.
+  cvs: [
+    {
+      lang: "es",
+      label: "Español",
+      url: "/Oscar%20Teran%20AI%20Engineer%20Es.pdf",
+      fileName: "Oscar-Hernandez-Teran-CV-ES.pdf",
+    },
+    {
+      lang: "en",
+      label: "English",
+      url: "/Oscar%20Teran%20AI%20Engineer.pdf",
+      fileName: "Oscar-Hernandez-Teran-CV-EN.pdf",
+    },
+  ] satisfies { lang: Locale; label: string; url: string; fileName: string }[],
   social: {
     github: "",
     linkedin: "https://www.linkedin.com/in/oscarhernandezteran",

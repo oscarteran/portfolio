@@ -23,9 +23,11 @@ export default function Contact({ site, ui, locale }: { site: Site; ui: Dictiona
                 GitHub
               </a>
             )}
-            <a href={site.cvUrl} download={site.cvFileName}>
-              {ui.cv}
-            </a>
+            {site.cvs.map((cv) => (
+              <a key={cv.lang} href={cv.url} download={cv.fileName} hrefLang={cv.lang}>
+                {ui.cv} · {cv.label}
+              </a>
+            ))}
             <span className="text-neutral-700">{site.location}</span>
           </div>
         </div>
