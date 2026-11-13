@@ -25,6 +25,9 @@
   --color-danger: #b3261e;
 }
 
+/* `dark:` utilities follow the chosen theme, not the OS setting. */
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
 @theme inline {
   --font-sans: var(--font-barlow), system-ui, sans-serif;
   --font-heading: var(--font-barlow-condensed), system-ui, sans-serif;
@@ -33,6 +36,31 @@
 @layer base {
   :root {
     color-scheme: light;
+  }
+
+  /* Dark theme: same roles, inverted. The inline script in RootDocument sets data-theme
+     before first paint. accent-700/800 get lighter here because they carry small text. */
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --color-bg: #141617;
+    --color-surface: #1c1f21;
+    --color-text: #e4e5e6;
+    --color-divider: color-mix(in srgb, #e4e5e6 16%, transparent);
+    --color-rule: color-mix(in srgb, #e4e5e6 8%, transparent);
+
+    --color-accent: #7fa3c7;
+    --color-accent-100: #1f2b37;
+    --color-accent-600: #8fb0d1;
+    --color-accent-700: #9dbbd9;
+    --color-accent-800: #c3d7ea;
+
+    --color-neutral-100: #232729;
+    --color-neutral-400: #55595c;
+    --color-neutral-500: #75797c;
+    --color-neutral-700: #a3a6a9;
+    --color-neutral-800: #c4c6c8;
+
+    --color-danger: #f2b8b5;
   }
 
   html {
@@ -183,42 +211,6 @@
     color: var(--color-accent-700);
   }
 
-  .input {
-    width: 100%;
-    min-height: 36px;
-    padding: 6px 10px;
-    font: inherit;
-    font-size: 14px;
-    color: var(--color-text);
-    caret-color: var(--color-accent);
-    background: var(--color-surface);
-    border: 1px solid var(--color-divider);
-  }
-
-  .input:hover {
-    border-color: color-mix(in srgb, var(--color-text) 45%, transparent);
-  }
-
-  .input:focus-visible {
-    border-color: var(--color-accent);
-    outline-offset: 0;
-  }
-
-  .input[aria-invalid="true"] {
-    border-color: var(--color-danger);
-  }
-
-  textarea.input {
-    min-height: 90px;
-    resize: vertical;
-  }
-
-  .field-label {
-    display: block;
-    font-size: 12px;
-    margin-bottom: 5px;
-    color: color-mix(in srgb, var(--color-text) 70%, transparent);
-  }
 }
 
 /* Seismogram trace draws in left-to-right; under reduced motion it renders in its final state. */

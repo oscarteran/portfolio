@@ -1,7 +1,9 @@
 import type { CSSProperties } from "react";
+import type { CloudArchitecture as CloudArch } from "@/data/cloudArchitecture";
 import type { Project, getArchitecture } from "@/data/projects";
 import type { Dictionary } from "@/data/ui";
 import Blueprint from "./Blueprint";
+import CloudArchitecture from "./CloudArchitecture";
 import DashList from "./DashList";
 import Section from "./Section";
 
@@ -107,10 +109,12 @@ function ProjectCard({ project }: { project: Project }) {
 export default function Projects({
   projects,
   arch,
+  cloud,
   ui,
 }: {
   projects: Project[];
   arch: Architecture;
+  cloud: CloudArch;
   ui: Dictionary;
 }) {
   const featured = projects.find((p) => p.featured);
@@ -119,6 +123,7 @@ export default function Projects({
   return (
     <Section id="proyectos" number="02" label={ui.sections.projects} spacing="md">
       {featured && <FeaturedCase project={featured} arch={arch} ui={ui} />}
+      <CloudArchitecture arch={cloud} />
       <div className="mt-7 grid grid-cols-[repeat(auto-fit,minmax(min(100%,280px),1fr))] gap-7">
         {rest.map((project) => (
           <ProjectCard key={project.title} project={project} />

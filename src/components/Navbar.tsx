@@ -3,6 +3,7 @@ import type { Dictionary } from "@/data/ui";
 import type { Locale } from "@/lib/i18n";
 import CvMenu from "./CvMenu";
 import LanguageSwitch from "./LanguageSwitch";
+import ThemeToggle from "./ThemeToggle";
 
 export default function Navbar({ site, ui, locale }: { site: Site; ui: Dictionary; locale: Locale }) {
   return (
@@ -22,6 +23,7 @@ export default function Navbar({ site, ui, locale }: { site: Site; ui: Dictionar
           ))}
         </nav>
         <LanguageSwitch locale={locale} label={ui.languageLabel} />
+        <ThemeToggle label={ui.themeToggle} />
         <CvMenu cvs={site.cvs} label={ui.cv} />
       </div>
     </header>

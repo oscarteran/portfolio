@@ -3,13 +3,17 @@ import { getUi } from "@/data/ui";
 import { fontVariables } from "@/lib/fonts";
 import type { Locale } from "@/lib/i18n";
 import { personJsonLd } from "@/lib/metadata";
+import { themeScript } from "@/lib/theme";
 import "@/app/globals.css";
 
 /** <html> shell shared by every locale's root layout. */
 export default function RootDocument({ locale, children }: { locale: Locale; children: ReactNode }) {
   const ui = getUi(locale);
   return (
-    <html lang={locale} className={`${fontVariables} h-full antialiased`}>
+    <html lang={locale} data-theme="light" className={`${fontVariables} h-full antialiased`} suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+      </head>
       <body className="flex min-h-full flex-col">
         <a
           href="#contenido"

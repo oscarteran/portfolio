@@ -3,6 +3,7 @@ import Blueprint from "@/components/Blueprint";
 import { getSite } from "@/data/site";
 import { getUi } from "@/data/ui";
 import { fontVariables } from "@/lib/fonts";
+import { themeScript } from "@/lib/theme";
 import "./globals.css";
 
 // Each locale has its own root layout, so unmatched URLs need a 404 that brings its own
@@ -17,7 +18,10 @@ export const metadata: Metadata = {
 
 export default function GlobalNotFound() {
   return (
-    <html lang="es" className={`${fontVariables} h-full antialiased`}>
+    <html lang="es" data-theme="light" className={`${fontVariables} h-full antialiased`} suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+      </head>
       <body className="flex min-h-full flex-col">
         <main className="flex min-h-screen flex-col items-start justify-center gap-4 px-[clamp(20px,5vw,72px)] py-20">
           <p className="kicker">404</p>

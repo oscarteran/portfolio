@@ -1,3 +1,4 @@
+import { getCloudArchitecture } from "@/data/cloudArchitecture";
 import { certification, getCareerEvents, getEducation, getExperience } from "@/data/experience";
 import { getMetrics } from "@/data/metrics";
 import { getPersonalProjects } from "@/data/personalProjects";
@@ -33,7 +34,12 @@ export default function HomePage({ locale }: { locale: Locale }) {
           <Metrics label={ui.sections.metrics} metrics={getMetrics(locale)} />
         </Reveal>
         <Reveal>
-          <Projects projects={getProjects(locale)} arch={getArchitecture(locale)} ui={ui} />
+          <Projects
+            projects={getProjects(locale)}
+            arch={getArchitecture(locale)}
+            cloud={getCloudArchitecture(locale)}
+            ui={ui}
+          />
         </Reveal>
         {personalProjects.length > 0 && (
           <Reveal>
@@ -52,7 +58,7 @@ export default function HomePage({ locale }: { locale: Locale }) {
           <Skills label={ui.sections.skills} skills={getSkills(locale)} />
         </Reveal>
         <Reveal>
-          <Contact site={site} ui={ui} locale={locale} />
+          <Contact site={site} ui={ui} />
         </Reveal>
         <Footer name={site.name} tagline={ui.footer} />
       </main>

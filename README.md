@@ -23,7 +23,7 @@ Abre [http://localhost:3000](http://localhost:3000).
 | `npm run start`     | Sirve el build                           |
 | `npm run lint`      | ESLint                                   |
 | `npm run typecheck` | Chequeo de tipos de TypeScript           |
-| `npm test`          | Tests unitarios y e2e (Playwright)       |
+| `npm test`          | Tests e2e (Playwright)                   |
 | `npm run test:ui`   | Tests en modo interactivo                |
 
 ## Variables de entorno
@@ -31,16 +31,12 @@ Abre [http://localhost:3000](http://localhost:3000).
 | Variable               | Uso                                                                                                   |
 | ---------------------- | ----------------------------------------------------------------------------------------------------- |
 | `NEXT_PUBLIC_SITE_URL` | URL canónica para metadata, Open Graph y sitemap. Se inyecta **en build**.                            |
-| `RESEND_API_KEY`       | Envío del formulario de contacto con [Resend](https://resend.com). Sin ella, el form abre `mailto:`.  |
-| `CONTACT_TO_EMAIL`     | Destinatario (por defecto, el email de `site.ts`).                                                     |
-| `CONTACT_FROM_EMAIL`   | Remitente verificado en Resend (por defecto, el remitente de pruebas `onboarding@resend.dev`).         |
 
 ## Tests y CI
 
 Los tests usan [Playwright](https://playwright.dev) y corren contra el **build de producción** en el puerto 3100, para no chocar con `npm run dev`:
 
-- `tests/unit/`: la validación del formulario de contacto (lógica pura, sin navegador).
-- `tests/e2e/`: la página real en escritorio y móvil. Cubren el render sin errores de consola ni de hidratación, la navegación del modal con teclado y la restauración del foco, el acordeón de experiencia, los errores y el fallback del formulario, el modo de movimiento reducido, el overflow en móvil, la metadata (SEO, Open Graph, JSON-LD), `robots.txt`, `sitemap.xml` y la 404.
+- `tests/e2e/`: la página real en escritorio y móvil. Cubren el render sin errores de consola ni de hidratación, la navegación del modal con teclado y la restauración del foco, el acordeón de experiencia, el menú de descarga del CV, el cambio de tema, el modo de movimiento reducido, el overflow en móvil, la metadata (SEO, Open Graph, JSON-LD), `robots.txt`, `sitemap.xml` y la 404.
 
 La primera vez: `npx playwright install chromium`.
 
@@ -54,13 +50,12 @@ src/
     (es)/layout.tsx, page.tsx      "/" en español (layout raíz con <html lang="es">)
     (en)/en/layout.tsx, page.tsx   "/en" en inglés (layout raíz con <html lang="en">)
     global-not-found.tsx  404 para URLs desconocidas (hay un layout raíz por idioma)
-    actions.ts            Server Action del formulario de contacto (Resend)
     opengraph-image.tsx   imagen para compartir generada con next/og
     icon.tsx              favicon generado
     robots.ts, sitemap.ts
   components/             HomePage compone las secciones (Hero, Seismogram, Metrics, Projects…); Blueprint es el marco con cruces de registro
   data/                   todo el contenido editable, en ES y EN ({ es, en }), con getters por idioma
-  lib/                    i18n, metadata/SEO, fuentes, trazo del sismograma, validación de contacto, reduced motion
+  lib/                    i18n, metadata/SEO, fuentes, trazo del sismograma, reduced motion
 ```
 
 ## Decisiones técnicas
@@ -68,8 +63,8 @@ src/
 - **Bilingüe con rutas.** `/` (español) y `/en` (inglés) son páginas estáticas con su propio `lang`, metadata, `hreflang` y JSON-LD. Los textos de interfaz están en `data/ui.ts`.
 - **Diseño "Industry / Sismograma".** Tokens en `src/app/globals.css`; la referencia original está en `Rediseño portafolio personal AI Engineer/`.
 - **Contenido como datos.** Textos, proyectos y experiencia viven en `src/data/`, tipados; los componentes no tienen copy hardcodeado.
-- **Formulario con Server Action.** La validación está en `lib/contact.ts` y la comparten cliente y servidor: el cliente evita round-trips innecesarios y el servidor vuelve a validar. Incluye honeypot anti-spam y rate limit por IP (best-effort, por instancia). Si no hay proveedor configurado, cae a `mailto:` para no romperse.
-- **Accesibilidad.** Respeta `prefers-reduced-motion` en todas las animaciones sin romper la hidratación (`useSafeReducedMotion`), modal con focus trap y restauración de foco, navegación por teclado, skip link y estados `aria-*` en el formulario.
+- **Tema claro/oscuro.** Los colores son tokens en `globals.css` y `[data-theme="dark"]` los redefine. Un script inline en `<head>` aplica la preferencia guardada (o la del sistema) antes del primer pintado, sin flash.
+- **Accesibilidad.** Respeta `prefers-reduced-motion` en todas las animaciones sin romper la hidratación (`useSafeReducedMotion`), modal con focus trap y restauración de foco, navegación por teclado, y skip link.
 - **Rendimiento.** Server Components por defecto; solo las piezas interactivas son client components. Las visualizaciones son SVG inline, sin imágenes pesadas.
 
 ## Deploy

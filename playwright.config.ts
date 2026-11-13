@@ -16,8 +16,6 @@ export default defineConfig({
     trace: "on-first-retry",
   },
   projects: [
-    // Pure logic, no browser needed.
-    { name: "unit", testDir: "./tests/unit" },
     { name: "desktop", testDir: "./tests/e2e", use: { ...devices["Desktop Chrome"] } },
     { name: "mobile", testDir: "./tests/e2e", use: { ...devices["Pixel 7"] } },
   ],
@@ -27,7 +25,5 @@ export default defineConfig({
     url: `http://127.0.0.1:${PORT}`,
     reuseExistingServer: !isCI,
     timeout: 180_000,
-    // Tests must not send real email, whatever the local .env says.
-    env: { RESEND_API_KEY: "" },
   },
 });

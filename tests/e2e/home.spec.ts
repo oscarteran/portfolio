@@ -16,11 +16,6 @@ function trackErrors(page: Page) {
   return errors;
 }
 
-/** Form inputs by label. */
-function field(page: Page, name: "Nombre" | "Email" | "Mensaje") {
-  return page.getByRole("textbox", { name, exact: true });
-}
-
 test.describe("home", () => {
   test("renders every section without console errors", async ({ page }) => {
     const errors = trackErrors(page);
@@ -112,44 +107,26 @@ test.describe("language", () => {
   });
 });
 
-test.describe("contact form", () => {
-  test.beforeEach(async ({ page }) => {
-    await page.goto("/#contacto");
-  });
-
-  test("shows an error for each empty field", async ({ page }) => {
-    await page.getByRole("button", { name: "Enviar mensaje" }).click();
-    await expect(field(page, "Nombre")).toHaveAttribute("aria-invalid", "true");
-    await expect(field(page, "Email")).toHaveAttribute("aria-invalid", "true");
-    await expect(field(page, "Mensaje")).toHaveAttribute("aria-invalid", "true");
-    await expect(page.locator("#contact-email-error")).toHaveText("Necesito un email para responderte.");
-  });
-
-  test("rejects an invalid email and keeps what was typed", async ({ page }) => {
-    await field(page, "Nombre").fill("Ana");
-    await field(page, "Email").fill("ana@");
-    await field(page, "Mensaje").fill("Hola");
-    await page.getByRole("button", { name: "Enviar mensaje" }).click();
-
-    await expect(page.locator("#contact-email-error")).toHaveText("Ese email no parece válido.");
-    await expect(field(page, "Nombre")).toHaveValue("Ana");
-    await expect(field(page, "Mensaje")).toHaveValue("Hola");
-  });
-
-  test("falls back to the visitor's mail client when no email provider is configured", async ({ page }) => {
-    await field(page, "Nombre").fill("Ana");
-    await field(page, "Email").fill("ana@example.com");
-    await field(page, "Mensaje").fill("Hola");
-    await page.getByRole("button", { name: "Enviar mensaje" }).click();
-
-    await expect(page.getByRole("status").filter({ hasText: "cliente de correo" })).toBeVisible();
-  });
+test("theme toggle switches to dark and remembers it", async ({ page }) => {
+  await page.emulateMedia({ colorScheme: "light" });
+  await page.goto("/");
+  const html = page.locator("html");
+  await expect(html).toHaveAttribute("data-theme", "light");
+  await page.getByRole("button", { name: "Cambiar tema claro u oscuro" }).click();
+  await expect(html).toHaveAttribute("data-theme", "dark");
+  await page.reload();
+  await expect(html).toHaveAttribute("data-theme", "dark");
 });
 
-test("contact form errors are in English on the English page", async ({ page }) => {
-  await page.goto("/en#contacto");
-  await page.getByRole("button", { name: "Send message" }).click();
-  await expect(page.locator("#contact-email-error")).toHaveText("I need an email to reply to you.");
+test("contact shows email, LinkedIn and both CVs but no form", async ({ page }) => {
+  await page.goto("/#contacto");
+  const contact = page.locator("section#contacto");
+  await expect(contact.getByRole("link", { name: site.email })).toBeVisible();
+  await expect(contact.getByRole("link", { name: "LinkedIn" })).toBeVisible();
+  for (const cv of site.cvs) {
+    await expect(contact.getByRole("link", { name: `Descargar CV · ${cv.label}` })).toHaveAttribute("href", cv.url);
+  }
+  await expect(contact.getByRole("textbox")).toHaveCount(0);
 });
 
 test("content stays visible with reduced motion", async ({ browser }) => {

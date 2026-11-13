@@ -38,7 +38,13 @@ export function buildMetadata(locale: Locale): Metadata {
   };
 }
 
-export const viewport: Viewport = { themeColor: "#f2f2f3", colorScheme: "light" };
+export const viewport: Viewport = {
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#f2f2f3" },
+    { media: "(prefers-color-scheme: dark)", color: "#141617" },
+  ],
+  colorScheme: "light dark",
+};
 
 /** Structured data so search engines can show a rich result for the person, not just the page. */
 export function personJsonLd(locale: Locale) {
